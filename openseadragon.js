@@ -3963,7 +3963,7 @@ $.extend( $.Viewer.prototype, $.EventHandler.prototype, $.ControlDock.prototype,
 	     * Using the "jQuery" Object for cases in which this is called from outside of the scope of the Drupal Object
 	     *
 	     */
-	    jQuery('<span id="openseadragon-back" style="background-color: #ffffff; border-radius: 0 0 6px 0; padding: 4px; position:absolute; top:0; z-index:10000;" ><a href="' + window.location.href + '" style="color: #910029; text-decoration: none; "  >Return</a></span>').prependTo(jQuery('body'));
+	    //jQuery('<span id="openseadragon-back" style="background-color: #ffffff; border-radius: 0 0 6px 0; padding: 4px; position:absolute; top:0; z-index:10000;" ><a href="' + window.location.href + '" style="color: #910029; text-decoration: none; "  >Return</a></span>').prependTo(jQuery('body'));
 
 	    /**
 	     * @author griffinj
@@ -4395,10 +4395,11 @@ function scheduleControlsFade( viewer ) {
     }, 20);
 };
 
-
 //initiates an animation to hide the controls
 function beginControlsAutoHide( viewer ) {
+
     if ( !viewer.autoHideControls ) {
+
         return;
     }
     viewer.controlsShouldFade = true;
@@ -4406,9 +4407,24 @@ function beginControlsAutoHide( viewer ) {
         +new Date() + 
         viewer.controlsFadeDelay;
 
-    window.setTimeout( function(){
+    /**
+     * @author griffinj@lafayette.edu
+     * Work-around for disabling fade-outs for controls when the Document loses focus
+     *
+     */
+    /*
+    window.setTimeout( function() {
         scheduleControlsFade( viewer );
     }, viewer.controlsFadeDelay );
+    */
+
+    window.setTimeout( function() {
+
+	    if( document.activeElement ) {
+
+		scheduleControlsFade( viewer );
+	    }
+	}, viewer.controlsFadeDelay );
 };
 
 
