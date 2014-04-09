@@ -4751,7 +4751,12 @@ function onNext(){
  */
 function onDownload() {
 
-    window.location = this.source.imageID;
+    //window.location = this.source.imageID;
+    /**
+     * Resolves DSS-250
+     *
+     */
+    window.location = this.source.imageID.replace('JP2', 'JPG');
 };
 
 
